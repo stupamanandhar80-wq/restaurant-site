@@ -1,0 +1,37 @@
+* {
+  box-sizing: border-box;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #252824;
+  background: #f8f3ea;
+}
+
+header,section,footer{
+  padding: 2rem;
+}
+
+nav{
+  display: flex;
+  gap: 1rem;
+}
+
+a{
+  color: #9b4f24;
+}
+
+section{
+  min-height: 12rem;
+}
+
+#hero{
+  a{
+    padding: 1rem;
+  }
+}
