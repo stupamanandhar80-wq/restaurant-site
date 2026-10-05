@@ -9,10 +9,11 @@
 
 .brand {
   font-family: Georgia, serif;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   color: #252824;
   text-decoration: none;
+  display: flex;
 }
 
 .header-nav {
@@ -29,6 +30,8 @@
 .header-nav a:hover {
   text-decoration: underline;
 }
+
+
 
 @media (max-width: 600px) {
   .site-header {
