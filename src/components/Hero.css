@@ -1,0 +1,80 @@
+.hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0,1fr);
+    align-items: center;
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.hero-label {
+    color:  #596d55;
+    font-weight: bold;
+}
+
+.hero h1 {
+    margin: 1 rem 0;
+    font-family: Georgia, serif;
+    font-size: clamp (2.25rem, 4vw, 3.5rem);
+    line-height: 1.15;
+}
+
+.hero-description {
+    max-width: 45ch;
+    line-height: 1.7;
+}
+
+.hero-action {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5 rem;
+}
+
+.hero-button {
+    display: inline-block;
+    padding: 0.85rem 1.25rem;
+    border: 2px solid #9b4f24;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.hero-button-primary {
+    color: white;
+    background: #9b4f24;
+}
+
+.hero-button-secondary {
+    color: #9b4f24;
+    background: transparent;
+}
+
+.hero-button:hover {
+    text-decoration: underline;
+}
+
+.hero-button:focus-visible {
+    outline: 3px solid #252824;
+    outline-offset: 4px;
+}
+
+.hero-logo {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    justify-self: center;
+}
+
+@media (max-width: 700px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 2.5rem 1rem;
+    }
+
+    .hero-logo {
+        max-width: 300px;
+    }
+}
