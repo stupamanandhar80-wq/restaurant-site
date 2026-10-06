@@ -1,16 +1,56 @@
-# React + Vite
+# Saffron & Stone
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive restaurant website built with React and Vite
+as a seven-day class project.
 
-Currently, two official plugins are available:
+## Restaurant concept
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Saffron & Stone is a fictional neighborhood restaurant with
+a Mediterranean-inspired menu and a warm, earthy identity.
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Header navigation and hero section
+- Menu generated from data with category filters
+- Reservation form with input validation
+- Fictional testimonials displayed through reusable components
+- Contact details and opening hours
+- Responsive layouts and keyboard navigation
 
-## Expanding the ESLint configuration
+## Technologies
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React
+- JavaScript and JSX
+- CSS
+- Vite
+- Git and GitHub
+
+## Run locally
+
+1. Download or clone this repository.
+2. Open a terminal in the project folder.
+3. Run `npm install`.
+4. Run `npm run dev`.
+5. Open the local address shown in the terminal.
+
+## Production build
+
+Run `npm run build` to generate the production files.
+
+Run `npm run preview` to preview the build locally.
+
+## Demo limitations
+
+The restaurant, reviews, prices, and contact details are fictional.
+Reservation details are not sent or saved, and no real booking is made.
+
+## What I learned
+
+- Organizing a page into React components
+- Passing information through props
+- Using state for filters and form inputs
+- Rendering and filtering arrays
+- Validating form entries
+- Creating responsive layouts
+- Testing keyboard navigation
+- Saving project history with Git and GitHub

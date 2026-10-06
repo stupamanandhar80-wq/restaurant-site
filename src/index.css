@@ -9,14 +9,35 @@ html{
 body{
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
   color: #252824;
   background: #f8f3ea;
+}
+button, 
+input, 
+select, 
+textarea {
+  font: inherit;
+}
+
+a:focus-visible, 
+button:focus-visible,
+input:focus-visible,
+select:focus-visible, 
+textarea:focus-visible{
+  outline: 3px solid #9b4f24;
+  outline-offset: 4px;
 }
 
 header,section,footer{
   padding: 2rem;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
 nav{
   display: flex;
   gap: 1rem;
@@ -26,12 +47,26 @@ a{
   color: #9b4f24;
 }
 
-section{
-  min-height: 12rem;
+
+.skip-link {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  border: 2px solid #252824;
+  background: #fffdf8;
+  color: #252824;
+  font-weight: bold;
+  transform: translateY(-200%);
 }
 
-#hero{
-  a{
-    padding: 1rem;
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
