@@ -70,3 +70,12 @@ a{
     scroll-behavior: auto;
   }
 }
+
+#main-content,
+#hero,
+#menu,
+#reservation,
+#testimonials,
+#contact {
+  scroll-margin-top: 6rem;
+}
