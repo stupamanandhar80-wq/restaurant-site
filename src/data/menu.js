@@ -5,6 +5,7 @@ const menuItems = [
     description: 'Creamy chickpeas, roasted peppers, and warm flatbread.',
     category: 'Starters',
     price: 350,
+    vegetarian: true,
   },
   {
     id: 2,
@@ -12,6 +13,7 @@ const menuItems = [
     description: 'Fresh greens, cucumber, olives, and lemon dressing.',
     category: 'Starters',
     price: 320,
+    vegetarian: true,
   },
   {
     id: 3,
@@ -19,6 +21,7 @@ const menuItems = [
     description: 'Grilled chicken served over fragrant saffron rice.',
     category: 'Mains',
     price: 650,
+    vegetarian: false,
   },
   {
     id: 4,
@@ -26,6 +29,7 @@ const menuItems = [
     description: 'Seasonal vegetables, feta, and herbs on crisp flatbread.',
     category: 'Mains',
     price: 550,
+    vegetarian: true,
   },
   {
     id: 5,
@@ -33,6 +37,7 @@ const menuItems = [
     description: 'A soft pistachio cake finished with honey.',
     category: 'Desserts',
     price: 280,
+    vegetarian: true,
   },
   {
     id: 6,
@@ -40,6 +45,7 @@ const menuItems = [
     description: 'Thick yogurt with orange, toasted nuts, and honey.',
     category: 'Desserts',
     price: 250,
+    vegetarian: true,
   },
 ];
 

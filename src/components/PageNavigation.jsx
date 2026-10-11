@@ -17,7 +17,7 @@ function PageNavigation () {
     useEffect (() => {
         const pageTitle = pageTitles[pathname] ?? 'Page Not Found';
 
-        document.title = `${pageTitle} | Saffron and Stone`;
+        document.title = `${pageTitle} || Saffron and Stone`;
 
         if (previousPath.current !== pathname) {
             const mainContent = document.getElementById ('main-content');
