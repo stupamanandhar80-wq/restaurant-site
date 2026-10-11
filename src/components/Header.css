@@ -110,3 +110,9 @@
     background: #eee5d8;
   }
 }
+
+.header-nav a.active {
+  color: #9b4f24;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}

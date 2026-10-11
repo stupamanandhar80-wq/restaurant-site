@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import './Header.css';
+import { Link, NavLink } from 'react-router';
 
 function Header() {
 
@@ -27,14 +28,14 @@ function Header() {
     }
 
     return(
-        <header 
+        <header
             className='site-header'
             onKeyDown={handleKeyDown}
             onBlur={handleBlur}
         >
-            <a className='brand' href='#hero' onClick={closeMenu}>
+            <Link className='brand' to="/" onClick={closeMenu}> 
                 Saffron & Stone
-            </a>
+            </Link>
 
             <button
                 ref={menuButtonRef}
@@ -53,15 +54,25 @@ function Header() {
                 className= {`header-nav ${isOpen ? 'is-open' : ''}`} 
                 aria-label='Main navigation'
             >
-                <a href='#menu' onClick={closeMenu}>
-                    Menu
-                </a>
-                <a href="#reservation" onClick={closeMenu}>
-                    Reservations
-                </a>
-                <a href="#contact" onClick={closeMenu}>
-                    Contact
-                </a>
+                <NavLink to="/" end onClick={closeMenu}>
+                Home
+                </NavLink>
+
+                <NavLink to="/menu" onClick={closeMenu}>
+                Menu
+                </NavLink>
+
+                <NavLink to="/about" onClick={closeMenu}>
+                About
+                </NavLink>
+
+                <NavLink to="/reservations" onClick={closeMenu}>
+                Reservations
+                </NavLink>
+
+                <NavLink to="/contact" onClick={closeMenu}>
+                Contact
+                </NavLink>
             </nav>
         </header>
     )

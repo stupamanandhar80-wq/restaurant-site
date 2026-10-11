@@ -1,80 +1,97 @@
 .hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0,1fr);
-    align-items: center;
-    gap: 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 4rem 2rem;
+  display: flex;
+  align-items: center;
+  min-height: 70vh;
+  min-height: 70svh;
+  padding: 5rem 2rem;
+
+  color: #fffdf8;
+  background-color: #252824;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgb(15 20 15 / 85%),
+      rgb(15 20 15 / 65%)
+    ),
+    url('../assets/hero-food.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-content {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .hero-label {
-    color:  #596d55;
-    font-weight: bold;
+  margin: 0 0 1rem;
+  color: #f0d9b5;
+  font-weight: bold;
 }
 
 .hero h1 {
-    margin: 1 rem 0;
-    font-family: Georgia, serif;
-    font-size: clamp (2.25rem, 4vw, 3.5rem);
-    line-height: 1.15;
+  max-width: 16ch;
+  margin: 0 0 1.5rem;
+  font-family: Georgia, serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.1;
 }
 
 .hero-description {
-    max-width: 45ch;
-    line-height: 1.7;
+  max-width: 45ch;
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.7;
 }
 
-.hero-action {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 1.5 rem;
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .hero-button {
-    display: inline-block;
-    padding: 0.85rem 1.25rem;
-    border: 2px solid #9b4f24;
-    border-radius: 6px;
-    font-weight: bold;
-    text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.85rem 1.25rem;
+  border: 2px solid #fffdf8;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .hero-button-primary {
-    color: white;
-    background: #9b4f24;
+  background: #fffdf8;
+  color: #252824;
 }
 
 .hero-button-secondary {
-    color: #9b4f24;
-    background: transparent;
+  background: transparent;
+  color: #fffdf8;
 }
 
 .hero-button:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .hero-button:focus-visible {
-    outline: 3px solid #252824;
-    outline-offset: 4px;
-}
-
-.hero-logo {
-    display: block;
-    width: 100%;
-    max-width: 420px;
-    height: auto;
-    justify-self: center;
+  outline: 3px solid #fffdf8;
+  outline-offset: 5px;
 }
 
 @media (max-width: 700px) {
-    .hero {
-        grid-template-columns: 1fr;
-        padding: 2.5rem 1rem;
-    }
+  .hero {
+    padding: 3.5rem 1rem;
+  }
 
-    .hero-logo {
-        max-width: 300px;
-    }
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

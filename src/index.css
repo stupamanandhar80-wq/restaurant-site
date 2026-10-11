@@ -79,3 +79,30 @@ a{
 #contact {
   scroll-margin-top: 6rem;
 }
+
+.page-intro {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.page-intro h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.2;
+}
+
+.page-intro h2 {
+  margin-top: 2rem;
+  font-family: Georgia, serif;
+}
+
+.page-intro p {
+  max-width: 65ch;
+}
+
+@media (max-width: 600px) {
+  .page-intro {
+    padding: 2rem 1rem;
+  }
+}

@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import './Footer.css';
 
 function Footer() {
@@ -34,13 +35,13 @@ function Footer() {
           <h3>Opening Hours</h3>
           <p>Daily: 12:00–22:00</p>
           <p>Last reservation time: 21:00</p>
-          <a href="#reservation">Request a table</a>
+          <Link to="/reservations">Request a table</Link>
         </div>
       </div>
 
       <div className="footer-bottom">
         <p>© {currentYear} Saffron & Stone · Class project</p>
-        <a href="#hero">Back to top</a>
+        <a href="#main-content">Back to top</a>
       </div>
     </footer>
   );
