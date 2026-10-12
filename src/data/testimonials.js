@@ -16,6 +16,11 @@ const testimonials = [
         name: 'Leena',
         quote: 'Warm flavors and a welcoming table. The pistachio cake was my favorite.',
     },
+    {
+        id: '4',
+        name: 'Gopal',
+        quote: 'Ambient lighting. Good vibes. A very cozy and family oriented place.',
+    },
 ];
 
 export default testimonials;

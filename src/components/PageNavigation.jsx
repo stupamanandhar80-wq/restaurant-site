@@ -1,40 +1,50 @@
-import { useEffect, useRef } from "react";
-import { useLocation } from "react-router";
-
+import { useEffect, useRef } from 'react';
+import { matchPath, useLocation } from 'react-router';
+import menuItems from '../data/menu.js';
 
 const pageTitles = {
-    '/': 'Home',
-    '/menu': 'Menu',
-    '/about': 'Our Story',
-    '/reservations': 'Reservations',
-    '/contact': 'Contact',
+  '/': 'Home',
+  '/menu': 'Menu',
+  '/about': 'Our Story',
+  '/reservations': 'Reservations',
+  '/contact': 'Contact',
 };
 
-function PageNavigation () {
-    const { pathname } = useLocation ();
-    const previousPath = useRef(pathname);
+function PageNavigation() {
+  const { pathname } = useLocation();
+  const previousPath = useRef(pathname);
 
-    useEffect (() => {
-        const pageTitle = pageTitles[pathname] ?? 'Page Not Found';
+  useEffect(() => {
+    const dishMatch = matchPath('/menu/:dishId', pathname);
 
-        document.title = `${pageTitle} || Saffron and Stone`;
+    const dish = dishMatch
+      ? menuItems.find(
+          (item) => String(item.id) === dishMatch.params.dishId
+        )
+      : undefined;
 
-        if (previousPath.current !== pathname) {
-            const mainContent = document.getElementById ('main-content');
+    const pageTitle = dishMatch
+      ? dish?.name ?? 'Dish Not Found'
+      : pageTitles[pathname] ?? 'Page Not Found';
 
-            mainContent?.focus({ preventScroll: true});
+    document.title = `${pageTitle} | Saffron & Stone`;
 
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: 'instant',
-            });
+    if (previousPath.current !== pathname) {
+      const mainContent = document.getElementById('main-content');
 
-            previousPath.current = pathname;
-        }
-    }, [pathname]);
+      mainContent?.focus({ preventScroll: true });
 
-    return (null);
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant',
+      });
+    }
+
+    previousPath.current = pathname;
+  }, [pathname]);
+
+  return null;
 }
 
 export default PageNavigation;

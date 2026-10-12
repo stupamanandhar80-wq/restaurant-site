@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import menuItems from '../data/menu.js';
 import './Menu.css';
+import { Link } from 'react-router';
 
 const categories = ['All', 'Starters', 'Mains', 'Desserts'];
 
@@ -120,7 +121,11 @@ function Menu() {
           {visibleItems.map((item) => (
             <article className="menu-card" key={item.id}>
               <p className="menu-category">{item.category}</p>
-              <h3>{item.name}</h3>
+              <h3>
+                <Link className="menu-dish-link" to={`/menu/${item.id}`}>
+                  {item.name}
+                </Link>
+              </h3>
 
             <span
                 className={`menu-badge ${

@@ -6,6 +6,7 @@ const menuItems = [
     category: 'Starters',
     price: 350,
     vegetarian: true,
+    ingredients: ['Chickpeas', 'Roasted red peppers', 'Tahini', 'Lemon', 'Olive Oil', 'Flatbread'],
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ const menuItems = [
     category: 'Starters',
     price: 320,
     vegetarian: true,
+    ingredients: ['Mixed greens', 'Cucumber', 'Olives', 'Lemon', 'Fresh herbs'],
   },
   {
     id: 3,
@@ -22,6 +24,7 @@ const menuItems = [
     category: 'Mains',
     price: 650,
     vegetarian: false,
+    ingredients: ['Chicken', 'Rice', 'Saffron', 'Garlic', 'Olive oil'],
   },
   {
     id: 4,
@@ -30,6 +33,7 @@ const menuItems = [
     category: 'Mains',
     price: 550,
     vegetarian: true,
+    ingredients: ['Flatbread', 'Seasonal vegetables', 'Feta', 'Olive oil', 'Herbs'],
   },
   {
     id: 5,
@@ -38,6 +42,7 @@ const menuItems = [
     category: 'Desserts',
     price: 280,
     vegetarian: true,
+    ingredients: ['Flour', 'Pistachios', 'Honey', 'Eggs', 'Butter'],
   },
   {
     id: 6,
@@ -46,6 +51,7 @@ const menuItems = [
     category: 'Desserts',
     price: 250,
     vegetarian: true,
+    ingredients: ['Yogurt', 'Orange', 'Mixed nuts', 'Honey'],
   },
 ];
 

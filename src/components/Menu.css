@@ -279,3 +279,14 @@
   background: #f5e3d9;
   color: #843d22;
 }
+
+.menu-dish-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: #b7a996;
+  text-underline-offset: 5px;
+}
+
+.menu-dish-link:hover {
+  color: #9b4f24;
+}

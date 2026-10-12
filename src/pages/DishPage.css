@@ -1,0 +1,154 @@
+.dish-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+}
+
+.dish-back {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0;
+    text-underline-offset: 4px;
+}
+
+.dish-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    padding: 2rem;
+    border: 1px solid #ded5c7;
+    border-radius: 18px;
+    background: #fffdf8;
+}
+
+.dish-category {
+    margin: 0;
+    color: #626759;
+    font-weight: bold;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.dish-page h1 {
+    margin: 0.75rem 0 1rem;
+    font-family: Georgia, serif;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.15;
+}
+
+.dish-page h2 {
+    font-family: Georgia, serif;
+}
+
+.dish-badge {
+    display: inline-block;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.dish-badge-veg {
+    background: #e7eddf;
+    color: #365536;
+}
+
+.dish-badge-nonveg {
+    background: #f5e3d9;
+    color: #843d22;
+}
+
+.dish-description {
+    max-width: 50ch;
+    margin-top: 1.5rem;
+    color: #626759;
+    line-height: 1.8;
+}
+
+.dish-price {
+    color: #9b4f24;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.dish-reserve {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    background: #9b4f24;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.dish-reserve:hover {
+    background: #7b3e1c;
+}
+
+.dish-ingredients {
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: #f3eee4;
+}
+
+.dish-ingredients h2 {
+    margin-top: 0;
+}
+
+.dish-ingredients ul {
+    padding-left: 1.25rem;
+}
+
+.dish-ingredients li {
+    margin-bottom: 0.6rem;
+}
+
+.dish-related {
+    margin-top: 3rem;
+    padding: 0;
+}
+
+.dish-related-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dish-related-list li {
+    padding: 1.25rem;
+    border:  1px solid #ded5c7;
+    border-radius: 12px;
+    background: #fffdf8;
+}
+
+.dish-related-list a {
+    display: inline-block;
+    padding: 0.5rem 0;
+    font-weight: bold;
+    text-underline-offset: 4px;
+}
+
+.dish-related-list p {
+    margin-bottom: 0;
+}
+
+@media (max-width: 750px) {
+    .dish-page {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .dish-detail {
+        grid-template-columns: 1fr;
+        gap:1.5rem;
+        padding: 1.25rem;
+    }
+    .dish-related-list {
+        grid-template-columns: 1fr;
+    }
+}

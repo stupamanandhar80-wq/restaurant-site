@@ -10,6 +10,7 @@ import MenuPage from './pages/MenuPage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
 import ReservationsPage from './pages/ReservationsPage.jsx';
 import ContactPage from './pages/ContactPage.jsx';
+import DishPage from './pages/DishPage.jsx';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<MenuPage />} />
+          <Route path='/menu/:dishId' element={<DishPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route
             path="/reservations"
