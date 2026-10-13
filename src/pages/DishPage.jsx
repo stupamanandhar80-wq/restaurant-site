@@ -1,9 +1,10 @@
-import { Link, useParams } from "react-router";
+import { Link, useLocation, useParams } from "react-router";
 import menuItems from "../data/menu";
 import "./DishPage.css"
 
 function DishPage () {
     const { dishId } = useParams();
+    const { search } = useLocation();
 
     const dish = menuItems.find((item) => String(item.id) === dishId);
 
@@ -12,7 +13,7 @@ function DishPage () {
             <section className="dish-page">
                 <h1>Dish not found</h1>
                 <p>We could not find the dish on our menu.</p>
-                <Link to="/menu"> Return to menu</Link>
+                <Link to={`/menu${search}`}> Return to menu</Link>
             </section>
         );
     }
@@ -29,7 +30,7 @@ function DishPage () {
 
         return(
             <div className="dish-page">
-                <Link className="dish-back" to="/menu">
+                <Link className="dish-back" to={`/menu${search}`}>
                      ← Back to menu
                 </Link>
 
@@ -73,7 +74,7 @@ function DishPage () {
                         <ul className="dish-related-list">
                             {relatedDishes.map((relatedDish) => (
                                 <li key={relatedDish.id}>
-                                    <Link to={`/menu/${relatedDish.id}`}>
+                                    <Link to={`/menu/${relatedDish.id}${search}`}>
                                         {relatedDish.name}
                                     </Link>
 

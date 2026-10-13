@@ -1,157 +1,240 @@
-import { useState } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
+import {
+  initialReservationState,
+  reservationReducer,
+} from '../reducers/reservationReducer.js';
 import './ReservationForm.css';
 
-const initialForm = {
-  name: '',
-  email: '',
-  date: '',
-  time: '',
-  guests: '2',
+const fields = [
+  {
+    name: 'name',
+    label: 'Full name',
+    type: 'text',
+    autoComplete: 'name',
+  },
+  {
+    name: 'email',
+    label: 'Email address',
+    type: 'email',
+    autoComplete: 'email',
+  },
+  {
+    name: 'date',
+    label: 'Date',
+    type: 'date',
+  },
+  {
+    name: 'time',
+    label: 'Time',
+    type: 'time',
+    min: '12:00',
+    max: '21:00',
+    step: 1800,
+  },
+  {
+    name: 'guests',
+    label: 'Number of guests',
+    type: 'number',
+    min: 1,
+    max: 8,
+    step: 1,
+  },
+];
+
+const stepTitles = {
+  details: '1. Your details',
+  review: '2. Review your request',
+  complete: '3. Demo complete',
 };
 
-function ReservationForm() {
-  const [form, setForm] = useState(initialForm);
-  const [error, setError] = useState('');
-  const [confirmation, setConfirmation] = useState('');
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-
-    setForm((previousForm) => ({
-      ...previousForm,
-      [name]: value,
-    }));
-
-    setError('');
-    setConfirmation('');
+function validateReservation(form) {
+  if (!form.name.trim()) {
+    return 'Please enter your name, not just spaces.';
   }
 
-  function handleSubmit(event) {
+  const requestedDate = new Date(`${form.date}T${form.time}`);
+
+  if (
+    Number.isNaN(requestedDate.getTime()) ||
+    requestedDate <= new Date()
+  ) {
+    return 'Please choose a future date and time.';
+  }
+
+  return '';
+}
+
+function ReservationForm() {
+  const [state, dispatch] = useReducer(
+    reservationReducer,
+    initialReservationState
+  );
+
+  const stepHeadingRef = useRef(null);
+  const previousStep = useRef(state.step);
+
+  useEffect(() => {
+    if (previousStep.current !== state.step) {
+      stepHeadingRef.current?.focus();
+    }
+
+    previousStep.current = state.step;
+  }, [state.step]);
+
+  function handleChange(event) {
+    dispatch({
+      type: 'field_changed',
+      name: event.target.name,
+      value: event.target.value,
+    });
+  }
+
+  function handleReview(event) {
     event.preventDefault();
 
-    setError('');
-    setConfirmation('');
+    const message = validateReservation(state.form);
 
-    if (!form.name.trim()) {
-      setError('Please enter your name, not just spaces.');
+    if (message) {
+      dispatch({ type: 'validation_failed', message });
       return;
     }
 
-    const requestedDate = new Date(`${form.date}T${form.time}`);
+    dispatch({ type: 'review' });
+  }
 
-    if (
-      Number.isNaN(requestedDate.getTime()) ||
-      requestedDate <= new Date()
-    ) {
-      setError('Please choose a future date and time.');
+  function handleComplete() {
+    const message = validateReservation(state.form);
+
+    if (message) {
+      dispatch({ type: 'validation_failed', message });
       return;
     }
 
-    setConfirmation(
-      `Thanks, ${form.name.trim()}! Your demo request is for ${
-        form.guests
-      } guests on ${form.date} at ${form.time}. No real booking was made.`
-    );
+    dispatch({ type: 'complete' });
   }
 
   return (
     <section id="reservation" className="reservation">
       <h2>Reserve a Table</h2>
 
-      <p>Gather your favorite people around our table.</p>
-
       <p id="reservation-help" className="reservation-note">
-        Practice form: details are not sent or saved. Sample booking
-        times are 12:00–21:00, using your device’s local time.
+        Booking times: 12:00–21:00, using your device’s local time.
+        This demonstration does not send or save a reservation.
       </p>
 
-      <form
-        className="reservation-form"
-        onSubmit={handleSubmit}
-        aria-describedby="reservation-help"
+      <h3
+        className="reservation-step-heading"
+        ref={stepHeadingRef}
+        tabIndex={-1}
       >
-        <div className="reservation-field">
-          <label htmlFor="reservation-name">Full name</label>
-          <input
-            id="reservation-name"
-            name="name"
-            type="text"
-            autoComplete="name"
-            value={form.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        {stepTitles[state.step]}
+      </h3>
 
-        <div className="reservation-field">
-          <label htmlFor="reservation-email">Email address</label>
-          <input
-            id="reservation-email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      {state.step === 'details' && (
+        <form
+          className="reservation-form"
+          onSubmit={handleReview}
+          aria-describedby="reservation-help"
+        >
+          {fields.map((field) => (
+            <div className="reservation-field" key={field.name}>
+              <label htmlFor={`reservation-${field.name}`}>
+                {field.label}
+              </label>
 
-        <div className="reservation-field">
-          <label htmlFor="reservation-date">Date</label>
-          <input
-            id="reservation-date"
-            name="date"
-            type="date"
-            value={form.date}
-            onChange={handleChange}
-            required
-          />
-        </div>
+              <input
+                id={`reservation-${field.name}`}
+                name={field.name}
+                type={field.type}
+                autoComplete={field.autoComplete}
+                min={field.min}
+                max={field.max}
+                step={field.step}
+                value={state.form[field.name]}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          ))}
 
-        <div className="reservation-field">
-          <label htmlFor="reservation-time">Time</label>
-          <input
-            id="reservation-time"
-            name="time"
-            type="time"
-            min="12:00"
-            max="21:00"
-            step="1800"
-            value={form.time}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="reservation-field">
-          <label htmlFor="reservation-guests">Number of guests</label>
-          <input
-            id="reservation-guests"
-            name="guests"
-            type="number"
-            min="1"
-            max="8"
-            step="1"
-            value={form.guests}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <button className="reservation-submit" type="submit">
-          Send Demo Request
-        </button>
-      </form>
-
-      {error && (
-        <p className="reservation-error" role="alert">
-          {error}
-        </p>
+          <button className="reservation-submit" type="submit">
+            Review request
+          </button>
+        </form>
       )}
 
-      <p className="reservation-confirmation" role="status">
-        {confirmation}
-      </p>
+      {state.step === 'review' && (
+        <div className="reservation-review">
+          <p>Check your details before completing the demo.</p>
+
+          <dl className="reservation-summary">
+            <div>
+              <dt>Name</dt>
+              <dd>{state.form.name.trim()}</dd>
+            </div>
+            <div>
+              <dt>Email</dt>
+              <dd>{state.form.email}</dd>
+            </div>
+            <div>
+              <dt>Date</dt>
+              <dd>{state.form.date}</dd>
+            </div>
+            <div>
+              <dt>Time</dt>
+              <dd>{state.form.time}</dd>
+            </div>
+            <div>
+              <dt>Guests</dt>
+              <dd>{state.form.guests}</dd>
+            </div>
+          </dl>
+
+          <div className="reservation-actions">
+            <button
+              className="reservation-secondary"
+              type="button"
+              onClick={() => dispatch({ type: 'edit' })}
+            >
+              Edit details
+            </button>
+
+            <button
+              className="reservation-submit"
+              type="button"
+              onClick={handleComplete}
+            >
+              Complete demo request
+            </button>
+          </div>
+        </div>
+      )}
+
+      {state.step === 'complete' && (
+        <div className="reservation-success">
+          <p>
+            Thanks, {state.form.name.trim()}! You completed the
+            reservation demonstration for {state.form.guests} guests
+            on {state.form.date} at {state.form.time}.
+          </p>
+
+          <p>No booking was made and no email was sent.</p>
+
+          <button
+            className="reservation-secondary"
+            type="button"
+            onClick={() => dispatch({ type: 'reset' })}
+          >
+            Start another request
+          </button>
+        </div>
+      )}
+
+      {state.error && (
+        <p className="reservation-error" role="alert">
+          {state.error}
+        </p>
+      )}
     </section>
   );
 }

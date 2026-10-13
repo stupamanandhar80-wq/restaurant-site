@@ -1,15 +1,59 @@
-import { useState } from 'react';
+import { Link, useSearchParams } from 'react-router';
 import menuItems from '../data/menu.js';
+import useFavorites from '../hooks/useFavorites.js';
 import './Menu.css';
-import { Link } from 'react-router';
 
 const categories = ['All', 'Starters', 'Mains', 'Desserts'];
+const sortOptions = ['recommended', 'price-low', 'price-high'];
 
 function Menu() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [vegetarianOnly, setVegetarianOnly] = useState(false);
-  const [sortOrder, setSortOrder] = useState('recommended');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { favoriteIds, toggleFavorite } = useFavorites();
+
+  const searchTerm = searchParams.get('q') ?? '';
+
+  const categoryParam = searchParams.get('category');
+  const selectedCategory = categories.includes(categoryParam)
+    ? categoryParam
+    : 'All';
+
+  const vegetarianOnly = searchParams.get('veg') === '1';
+
+  const sortParam = searchParams.get('sort');
+  const sortOrder = sortOptions.includes(sortParam)
+    ? sortParam
+    : 'recommended';
+
+  const queryString = searchParams.toString();
+  const querySuffix = queryString ? `?${queryString}` : '';
+
+  function updateFilters(changes) {
+    setSearchParams(
+      (previousParams) => {
+        const nextParams = new URLSearchParams(previousParams);
+
+        Object.entries(changes).forEach(([key, value]) => {
+          if (value === '') {
+            nextParams.delete(key);
+          } else {
+            nextParams.set(key, value);
+          }
+        });
+
+        return nextParams;
+      },
+      { replace: true }
+    );
+  }
+
+  function clearFilters() {
+    updateFilters({
+      q: '',
+      category: '',
+      veg: '',
+      sort: '',
+    });
+  }
 
   const normalizedSearch = searchTerm.trim().toLowerCase();
 
@@ -22,7 +66,6 @@ function Menu() {
       `${item.name} ${item.description}`.toLowerCase();
 
     const matchesSearch = searchableText.includes(normalizedSearch);
-
     const matchesDiet = !vegetarianOnly || item.vegetarian === true;
 
     return matchesCategory && matchesSearch && matchesDiet;
@@ -34,13 +77,6 @@ function Menu() {
     visibleItems.sort((first, second) => first.price - second.price);
   } else if (sortOrder === 'price-high') {
     visibleItems.sort((first, second) => second.price - first.price);
-  }
-
-  function clearFilters() {
-    setSelectedCategory('All');
-    setSearchTerm('');
-    setVegetarianOnly(false);
-    setSortOrder('recommended');
   }
 
   return (
@@ -57,7 +93,9 @@ function Menu() {
             type="search"
             placeholder="Try hummus, rice, or lemon"
             value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
+            onChange={(event) =>
+              updateFilters({ q: event.target.value })
+            }
           />
         </div>
 
@@ -66,7 +104,14 @@ function Menu() {
           <select
             id="menu-sort"
             value={sortOrder}
-            onChange={(event) => setSortOrder(event.target.value)}
+            onChange={(event) =>
+              updateFilters({
+                sort:
+                  event.target.value === 'recommended'
+                    ? ''
+                    : event.target.value,
+              })
+            }
           >
             <option value="recommended">Menu order</option>
             <option value="price-low">Price: low to high</option>
@@ -80,7 +125,7 @@ function Menu() {
             type="checkbox"
             checked={vegetarianOnly}
             onChange={(event) =>
-              setVegetarianOnly(event.target.checked)
+              updateFilters({ veg: event.target.checked ? '1' : '' })
             }
           />
           Vegetarian only
@@ -94,7 +139,11 @@ function Menu() {
             type="button"
             className="menu-filter"
             aria-pressed={selectedCategory === category}
-            onClick={() => setSelectedCategory(category)}
+            onClick={() =>
+              updateFilters({
+                category: category === 'All' ? '' : category,
+              })
+            }
           >
             {category}
           </button>
@@ -118,32 +167,56 @@ function Menu() {
 
       {visibleItems.length > 0 ? (
         <div className="menu-grid">
-          {visibleItems.map((item) => (
-            <article className="menu-card" key={item.id}>
-              <p className="menu-category">{item.category}</p>
-              <h3>
-                <Link className="menu-dish-link" to={`/menu/${item.id}`}>
-                  {item.name}
-                </Link>
-              </h3>
+          {visibleItems.map((item) => {
+            const isFavorite = favoriteIds.includes(item.id);
 
-            <span
-                className={`menu-badge ${
-                    item.vegetarian ? 'menu-badge-veg' : 'menu-badge-nonveg'
-                }`}
-            >
-                {item.vegetarian ? 'Vegetarian' : 'Non-vegetarian'}
-            </span>
+            return (
+              <article className="menu-card" key={item.id}>
+                <p className="menu-category">{item.category}</p>
 
-              <p className="menu-description">{item.description}</p>
-              <p className="menu-price">NPR {item.price}</p>
-            </article>
-          ))}
+                <h3>
+                  <Link
+                    className="menu-dish-link"
+                    to={`/menu/${item.id}${querySuffix}`}
+                  >
+                    {item.name}
+                  </Link>
+                </h3>
+
+                <span
+                  className={`menu-badge ${
+                    item.vegetarian
+                      ? 'menu-badge-veg'
+                      : 'menu-badge-nonveg'
+                  }`}
+                >
+                  {item.vegetarian ? 'Vegetarian' : 'Non-vegetarian'}
+                </span>
+
+                <p className="menu-description">{item.description}</p>
+                <p className="menu-price">NPR {item.price}</p>
+
+                <button
+                  className="menu-favorite"
+                  type="button"
+                  aria-pressed={isFavorite}
+                  aria-label={`Favorite: ${item.name}`}
+                  onClick={() => toggleFavorite(item.id)}
+                >
+                  <span aria-hidden="true">
+                    {isFavorite ? '★' : '☆'}
+                  </span>
+                  {' '}
+                  Favorite
+                </button>
+              </article>
+            );
+          })}
         </div>
       ) : (
         <div className="menu-empty">
           <h3>No dishes match your choices.</h3>
-          <p>Try another search or use Clear filters to see every dish.</p>
+          <p>Try another search or clear your filters.</p>
         </div>
       )}
     </section>

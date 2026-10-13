@@ -290,3 +290,33 @@
 .menu-dish-link:hover {
   color: #9b4f24;
 }
+
+.menu-favorite {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  gap: 0.4rem;
+
+  min-height: 44px;
+  margin-top: 1rem;
+  padding: 0.5rem 0.9rem;
+
+  border: 1px solid var(--menu-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--menu-accent);
+
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.menu-favorite[aria-pressed="true"] {
+  border-color: var(--menu-accent);
+  background: #f5e3d9;
+}
+
+.menu-favorite:hover {
+  border-color: var(--menu-accent);
+}
