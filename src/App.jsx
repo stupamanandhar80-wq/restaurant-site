@@ -1,16 +1,17 @@
-import { Link, Route, Routes } from 'react-router';
+import { Link, Route, Routes } from "react-router";
 
-import PageNavigation from './components/PageNavigation.jsx';
+import PageNavigation from "./components/PageNavigation.jsx";
 
-import Header from './components/Header.jsx';
-import Footer from './components/Footer.jsx';
+import Header from "./components/Header.jsx";
+import Footer from "./components/Footer.jsx";
 
-import HomePage from './pages/HomePage.jsx';
-import MenuPage from './pages/MenuPage.jsx';
-import AboutPage from './pages/AboutPage.jsx';
-import ReservationsPage from './pages/ReservationsPage.jsx';
-import ContactPage from './pages/ContactPage.jsx';
-import DishPage from './pages/DishPage.jsx';
+import HomePage from "./pages/HomePage.jsx";
+import MenuPage from "./pages/MenuPage.jsx";
+import AboutPage from "./pages/AboutPage.jsx";
+import ReservationsPage from "./pages/ReservationsPage.jsx";
+import ContactPage from "./pages/ContactPage.jsx";
+import DishPage from "./pages/DishPage.jsx";
+import FavoritesPage from "./pages/FavoritesPage.jsx";
 
 function App() {
   return (
@@ -26,12 +27,10 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<MenuPage />} />
-          <Route path='/menu/:dishId' element={<DishPage />} />
+          <Route path="/menu/:dishId" element={<DishPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route
-            path="/reservations"
-            element={<ReservationsPage />}
-          />
+          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/reservations" element={<ReservationsPage />} />
           <Route path="/contact" element={<ContactPage />} />
 
           <Route

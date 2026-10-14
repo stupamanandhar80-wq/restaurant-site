@@ -1,40 +1,40 @@
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useReducer, useRef } from "react";
 import {
   initialReservationState,
   reservationReducer,
-} from '../reducers/reservationReducer.js';
-import './ReservationForm.css';
+} from "../reducers/reservationReducer.js";
+import "./ReservationForm.css";
 
 const fields = [
   {
-    name: 'name',
-    label: 'Full name',
-    type: 'text',
-    autoComplete: 'name',
+    name: "name",
+    label: "Full name",
+    type: "text",
+    autoComplete: "name",
   },
   {
-    name: 'email',
-    label: 'Email address',
-    type: 'email',
-    autoComplete: 'email',
+    name: "email",
+    label: "Email address",
+    type: "email",
+    autoComplete: "email",
   },
   {
-    name: 'date',
-    label: 'Date',
-    type: 'date',
+    name: "date",
+    label: "Date",
+    type: "date",
   },
   {
-    name: 'time',
-    label: 'Time',
-    type: 'time',
-    min: '12:00',
-    max: '21:00',
+    name: "time",
+    label: "Time",
+    type: "time",
+    min: "12:00",
+    max: "21:00",
     step: 1800,
   },
   {
-    name: 'guests',
-    label: 'Number of guests',
-    type: 'number',
+    name: "guests",
+    label: "Number of guests",
+    type: "number",
     min: 1,
     max: 8,
     step: 1,
@@ -42,32 +42,29 @@ const fields = [
 ];
 
 const stepTitles = {
-  details: '1. Your details',
-  review: '2. Review your request',
-  complete: '3. Demo complete',
+  details: "1. Your details",
+  review: "2. Review your request",
+  complete: "3. Demo complete",
 };
 
 function validateReservation(form) {
   if (!form.name.trim()) {
-    return 'Please enter your name, not just spaces.';
+    return "Please enter your name, not just spaces.";
   }
 
   const requestedDate = new Date(`${form.date}T${form.time}`);
 
-  if (
-    Number.isNaN(requestedDate.getTime()) ||
-    requestedDate <= new Date()
-  ) {
-    return 'Please choose a future date and time.';
+  if (Number.isNaN(requestedDate.getTime()) || requestedDate <= new Date()) {
+    return "Please choose a future date and time.";
   }
 
-  return '';
+  return "";
 }
 
 function ReservationForm() {
   const [state, dispatch] = useReducer(
     reservationReducer,
-    initialReservationState
+    initialReservationState,
   );
 
   const stepHeadingRef = useRef(null);
@@ -83,7 +80,7 @@ function ReservationForm() {
 
   function handleChange(event) {
     dispatch({
-      type: 'field_changed',
+      type: "field_changed",
       name: event.target.name,
       value: event.target.value,
     });
@@ -95,22 +92,22 @@ function ReservationForm() {
     const message = validateReservation(state.form);
 
     if (message) {
-      dispatch({ type: 'validation_failed', message });
+      dispatch({ type: "validation_failed", message });
       return;
     }
 
-    dispatch({ type: 'review' });
+    dispatch({ type: "review" });
   }
 
   function handleComplete() {
     const message = validateReservation(state.form);
 
     if (message) {
-      dispatch({ type: 'validation_failed', message });
+      dispatch({ type: "validation_failed", message });
       return;
     }
 
-    dispatch({ type: 'complete' });
+    dispatch({ type: "complete" });
   }
 
   return (
@@ -118,8 +115,8 @@ function ReservationForm() {
       <h2>Reserve a Table</h2>
 
       <p id="reservation-help" className="reservation-note">
-        Booking times: 12:00–21:00, using your device’s local time.
-        This demonstration does not send or save a reservation.
+        Booking times: 12:00–21:00, using your device’s local time. This
+        demonstration does not send or save a reservation.
       </p>
 
       <h3
@@ -130,7 +127,7 @@ function ReservationForm() {
         {stepTitles[state.step]}
       </h3>
 
-      {state.step === 'details' && (
+      {state.step === "details" && (
         <form
           className="reservation-form"
           onSubmit={handleReview}
@@ -138,9 +135,7 @@ function ReservationForm() {
         >
           {fields.map((field) => (
             <div className="reservation-field" key={field.name}>
-              <label htmlFor={`reservation-${field.name}`}>
-                {field.label}
-              </label>
+              <label htmlFor={`reservation-${field.name}`}>{field.label}</label>
 
               <input
                 id={`reservation-${field.name}`}
@@ -163,7 +158,7 @@ function ReservationForm() {
         </form>
       )}
 
-      {state.step === 'review' && (
+      {state.step === "review" && (
         <div className="reservation-review">
           <p>Check your details before completing the demo.</p>
 
@@ -194,7 +189,7 @@ function ReservationForm() {
             <button
               className="reservation-secondary"
               type="button"
-              onClick={() => dispatch({ type: 'edit' })}
+              onClick={() => dispatch({ type: "edit" })}
             >
               Edit details
             </button>
@@ -210,12 +205,12 @@ function ReservationForm() {
         </div>
       )}
 
-      {state.step === 'complete' && (
+      {state.step === "complete" && (
         <div className="reservation-success">
           <p>
-            Thanks, {state.form.name.trim()}! You completed the
-            reservation demonstration for {state.form.guests} guests
-            on {state.form.date} at {state.form.time}.
+            Thanks, {state.form.name.trim()}! You completed the reservation
+            demonstration for {state.form.guests} guests on {state.form.date} at{" "}
+            {state.form.time}.
           </p>
 
           <p>No booking was made and no email was sent.</p>
@@ -223,7 +218,7 @@ function ReservationForm() {
           <button
             className="reservation-secondary"
             type="button"
-            onClick={() => dispatch({ type: 'reset' })}
+            onClick={() => dispatch({ type: "reset" })}
           >
             Start another request
           </button>
