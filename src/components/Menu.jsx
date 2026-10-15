@@ -1,31 +1,28 @@
-import { Link, useSearchParams } from 'react-router';
-import menuItems from '../data/menu.js';
-import useFavorites from '../hooks/useFavorites.js';
-import './Menu.css';
+import { useSearchParams } from "react-router";
+import menuItems from "../data/menu.js";
+import "./Menu.css";
+import DishCard from "./DishCard.jsx";
 
-const categories = ['All', 'Starters', 'Mains', 'Desserts'];
-const sortOptions = ['recommended', 'price-low', 'price-high'];
+const categories = ["All", "Starters", "Mains", "Desserts"];
+const sortOptions = ["recommended", "price-low", "price-high"];
 
 function Menu() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { favoriteIds, toggleFavorite } = useFavorites();
 
-  const searchTerm = searchParams.get('q') ?? '';
+  const searchTerm = searchParams.get("q") ?? "";
 
-  const categoryParam = searchParams.get('category');
+  const categoryParam = searchParams.get("category");
   const selectedCategory = categories.includes(categoryParam)
     ? categoryParam
-    : 'All';
+    : "All";
 
-  const vegetarianOnly = searchParams.get('veg') === '1';
+  const vegetarianOnly = searchParams.get("veg") === "1";
 
-  const sortParam = searchParams.get('sort');
-  const sortOrder = sortOptions.includes(sortParam)
-    ? sortParam
-    : 'recommended';
+  const sortParam = searchParams.get("sort");
+  const sortOrder = sortOptions.includes(sortParam) ? sortParam : "recommended";
 
   const queryString = searchParams.toString();
-  const querySuffix = queryString ? `?${queryString}` : '';
+  const querySuffix = queryString ? `?${queryString}` : "";
 
   function updateFilters(changes) {
     setSearchParams(
@@ -33,7 +30,7 @@ function Menu() {
         const nextParams = new URLSearchParams(previousParams);
 
         Object.entries(changes).forEach(([key, value]) => {
-          if (value === '') {
+          if (value === "") {
             nextParams.delete(key);
           } else {
             nextParams.set(key, value);
@@ -42,16 +39,16 @@ function Menu() {
 
         return nextParams;
       },
-      { replace: true }
+      { replace: true },
     );
   }
 
   function clearFilters() {
     updateFilters({
-      q: '',
-      category: '',
-      veg: '',
-      sort: '',
+      q: "",
+      category: "",
+      veg: "",
+      sort: "",
     });
   }
 
@@ -59,11 +56,9 @@ function Menu() {
 
   const filteredItems = menuItems.filter((item) => {
     const matchesCategory =
-      selectedCategory === 'All' ||
-      item.category === selectedCategory;
+      selectedCategory === "All" || item.category === selectedCategory;
 
-    const searchableText =
-      `${item.name} ${item.description}`.toLowerCase();
+    const searchableText = `${item.name} ${item.description}`.toLowerCase();
 
     const matchesSearch = searchableText.includes(normalizedSearch);
     const matchesDiet = !vegetarianOnly || item.vegetarian === true;
@@ -73,9 +68,9 @@ function Menu() {
 
   const visibleItems = [...filteredItems];
 
-  if (sortOrder === 'price-low') {
+  if (sortOrder === "price-low") {
     visibleItems.sort((first, second) => first.price - second.price);
-  } else if (sortOrder === 'price-high') {
+  } else if (sortOrder === "price-high") {
     visibleItems.sort((first, second) => second.price - first.price);
   }
 
@@ -93,9 +88,7 @@ function Menu() {
             type="search"
             placeholder="Try hummus, rice, or lemon"
             value={searchTerm}
-            onChange={(event) =>
-              updateFilters({ q: event.target.value })
-            }
+            onChange={(event) => updateFilters({ q: event.target.value })}
           />
         </div>
 
@@ -107,8 +100,8 @@ function Menu() {
             onChange={(event) =>
               updateFilters({
                 sort:
-                  event.target.value === 'recommended'
-                    ? ''
+                  event.target.value === "recommended"
+                    ? ""
                     : event.target.value,
               })
             }
@@ -125,7 +118,7 @@ function Menu() {
             type="checkbox"
             checked={vegetarianOnly}
             onChange={(event) =>
-              updateFilters({ veg: event.target.checked ? '1' : '' })
+              updateFilters({ veg: event.target.checked ? "1" : "" })
             }
           />
           Vegetarian only
@@ -141,7 +134,7 @@ function Menu() {
             aria-pressed={selectedCategory === category}
             onClick={() =>
               updateFilters({
-                category: category === 'All' ? '' : category,
+                category: category === "All" ? "" : category,
               })
             }
           >
@@ -152,66 +145,25 @@ function Menu() {
 
       <div className="menu-results-bar">
         <p className="menu-count" role="status">
-          Showing {visibleItems.length}{' '}
-          {visibleItems.length === 1 ? 'dish' : 'dishes'}
+          Showing {visibleItems.length}{" "}
+          {visibleItems.length === 1 ? "dish" : "dishes"}
         </p>
 
-        <button
-          type="button"
-          className="menu-clear"
-          onClick={clearFilters}
-        >
+        <button type="button" className="menu-clear" onClick={clearFilters}>
           Clear filters
         </button>
       </div>
 
       {visibleItems.length > 0 ? (
         <div className="menu-grid">
-          {visibleItems.map((item) => {
-            const isFavorite = favoriteIds.includes(item.id);
-
-            return (
-              <article className="menu-card" key={item.id}>
-                <p className="menu-category">{item.category}</p>
-
-                <h3>
-                  <Link
-                    className="menu-dish-link"
-                    to={`/menu/${item.id}${querySuffix}`}
-                  >
-                    {item.name}
-                  </Link>
-                </h3>
-
-                <span
-                  className={`menu-badge ${
-                    item.vegetarian
-                      ? 'menu-badge-veg'
-                      : 'menu-badge-nonveg'
-                  }`}
-                >
-                  {item.vegetarian ? 'Vegetarian' : 'Non-vegetarian'}
-                </span>
-
-                <p className="menu-description">{item.description}</p>
-                <p className="menu-price">NPR {item.price}</p>
-
-                <button
-                  className="menu-favorite"
-                  type="button"
-                  aria-pressed={isFavorite}
-                  aria-label={`Favorite: ${item.name}`}
-                  onClick={() => toggleFavorite(item.id)}
-                >
-                  <span aria-hidden="true">
-                    {isFavorite ? '★' : '☆'}
-                  </span>
-                  {' '}
-                  Favorite
-                </button>
-              </article>
-            );
-          })}
+          {visibleItems.map((item, index) => (
+            <DishCard
+              key={item.id}
+              dish={item}
+              querySuffix={querySuffix}
+              imageLoading={index < 3 ? "eager" : "lazy"}
+            />
+          ))}
         </div>
       ) : (
         <div className="menu-empty">

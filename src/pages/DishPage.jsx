@@ -1,10 +1,15 @@
 import { Link, useLocation, useParams } from "react-router";
+
 import menuItems from "../data/menu";
+import useFavorites from "../hooks/useFavorites";
+
 import "./DishPage.css";
 
 function DishPage() {
   const { dishId } = useParams();
   const { search } = useLocation();
+
+  const { favoriteIds, toggleFavorite } = useFavorites();
 
   const dish = menuItems.find((item) => String(item.id) === dishId);
 
@@ -18,6 +23,7 @@ function DishPage() {
     );
   }
 
+  const isFavorite = favoriteIds.includes(dish.id);
   const ingredients = dish.ingredients ?? [];
 
   const relatedDishes = menuItems
@@ -29,6 +35,15 @@ function DishPage() {
       <Link className="dish-back" to={`/menu${search}`}>
         ← Back to menu
       </Link>
+
+      <img
+        className="dish-detail-image"
+        src={dish.image}
+        alt={dish.imageAlt}
+        width="1200"
+        height="900"
+        loading="eager"
+      />
 
       <article className="dish-detail">
         <div>
@@ -49,6 +64,16 @@ function DishPage() {
           <Link className="dish-reserve" to="/reservations">
             Reserve a table
           </Link>
+          <button
+            className="dish-detail-favorite"
+            type="button"
+            aria-pressed={isFavorite}
+            aria-label={`Favorite: ${dish.name}`}
+            onClick={() => toggleFavorite(dish.id)}
+          >
+            <span aria-hidden="true">{isFavorite ? "★" : "☆"}</span>
+            Favorite
+          </button>
         </div>
 
         <div className="dish-ingredients">

@@ -2,11 +2,12 @@ import { Link } from "react-router";
 
 import menuItems from "../data/menu.js";
 import useFavorites from "../hooks/useFavorites.js";
+import DishCard from "../components/DishCard.jsx";
 
 import "./FavoritesPage.css";
 
 function FavoritesPage() {
-  const { favoriteIds, removeFavorite } = useFavorites();
+  const { favoriteIds } = useFavorites();
 
   const savedDishes = menuItems.filter((item) => favoriteIds.includes(item.id));
 
@@ -27,39 +28,14 @@ function FavoritesPage() {
 
       {savedDishes.length > 0 ? (
         <ul className="favorites-list">
-          {savedDishes.map((dish) => (
-            <li className="saved-dish" key={dish.id}>
-              <div className="saved-dish-content">
-                <p className="saved-dish-category">{dish.category}</p>
-
-                <h2>
-                  <Link to={`/menu/${dish.id}`}>{dish.name}</Link>
-                </h2>
-
-                <p>{dish.description}</p>
-
-                <span
-                  className={`saved-dish-badge ${
-                    dish.vegetarian
-                      ? "saved-dish-badge-veg"
-                      : "saved-dish-badge-nonveg"
-                  }`}
-                >
-                  {dish.vegetarian ? "Vegetarian" : "Non-vegetarian"}
-                </span>
-              </div>
-
-              <div className="saved-dish-actions">
-                <p className="saved-dish-price">NPR {dish.price}</p>
-
-                <button
-                  type="button"
-                  onClick={() => removeFavorite(dish.id)}
-                  aria-label={`Remove ${dish.name} from saved dishes`}
-                >
-                  Remove
-                </button>
-              </div>
+          {savedDishes.map((dish, index) => (
+            <li key={dish.id}>
+              <DishCard
+                dish={dish}
+                headingLevel="h2"
+                removable
+                imageLoading={index < 3 ? "eager" : "lazy"}
+              />
             </li>
           ))}
         </ul>
