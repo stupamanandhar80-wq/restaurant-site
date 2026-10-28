@@ -2,15 +2,31 @@ import "dotenv/config";
 
 import express from "express";
 import mongoose from "mongoose";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+import authRoutes from "./routes/authRoutes.js";
+import reservationRoutes from "./routes/reservationRoutes.js";
+import dishRoutes from "./routes/dishRoutes.js";
 
 const app = express();
 
 const PORT = Number(process.env.PORT) || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
+const currentDirectory = path.dirname(fileURLToPath(import.meta.url));
+const uploadsDirectory = path.resolve(currentDirectory, "../uploads");
+
 app.disable("x-powered-by");
 
 app.use(express.json({ limit: "10kb" }));
+
+// Makes uploaded images available at URLs such as /uploads/dishes/image.jpg
+app.use("/uploads", express.static(uploadsDirectory));
+
+app.use("/api/auth", authRoutes);
+app.use("/api/reservations", reservationRoutes);
+app.use("/api/dishes", dishRoutes);
 
 app.get("/api/health", (req, res) => {
   const databaseConnected = mongoose.connection.readyState === 1;
@@ -31,7 +47,6 @@ app.use((req, res) => {
 async function startServer() {
   if (!MONGODB_URI) {
     console.error("MONGODB_URI is missing. Check server/.env.");
-
     process.exit(1);
   }
 
